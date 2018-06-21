@@ -1,0 +1,100 @@
+<script>
+export default {
+  name: 'PriorityPlusMenu',
+
+  props: {
+    list: {
+      type: Array,
+      required: true,
+      default () { return [] }
+    }
+  },
+
+  data () {
+    return {
+      accumItemWidths: []
+    }
+  },
+
+  render () {
+    return this.$scopedSlots.default({
+      mainItems: this.mainItems,
+      moreItems: this.moreItems
+    })
+  },
+
+  beforeCreate () {
+    this.$options.propsData.list.forEach((item) => {
+      this.$set(item, 'hidden', false)
+    })
+  },
+
+  async mounted () {
+    await this.$nextTick()
+
+    this.storeItemWidths()
+    this.handleResize()
+    window.addEventListener('resize', this.handleResize.bind(this))
+  },
+
+  beforeDestroy () {
+    window.removeEventListener('resize', this.handleResize.bind(this))
+  },
+
+  methods: {
+    storeItemWidths () {
+      let sum = 0
+      const els = Array.prototype.slice.call(this.$el.children || [])
+      this.list.forEach((item, index) => {
+        this.$set(item, 'width', els[index].offsetWidth)
+        sum += item.width
+        this.$set(this.accumItemWidths, index, sum)
+      })
+    },
+
+    getContainerWidth () {
+      let offset = 0
+
+      if (this.$refs.more) { offset += this.$refs.more.offsetWidth }
+
+      return this.$el.offsetWidth - offset
+    },
+
+    getLastVisibleItemIndex () {
+      let index = 0
+      const containerWidth = this.getContainerWidth()
+
+      while (index < this.accumItemWidths.length) {
+        if (this.accumItemWidths[index] > containerWidth) {
+          index--
+          break
+        }
+        index++
+      }
+
+      return index
+    },
+
+    async handleResize () {
+      await this.$nextTick()
+
+      const lastVisibleItemIndex = this.getLastVisibleItemIndex()
+
+      this.list.forEach((item, index) => {
+        const hidden = index > lastVisibleItemIndex
+        this.$set(item, 'hidden', hidden)
+      })
+    }
+  },
+
+  computed: {
+    mainItems () {
+      return this.list.filter((item) => !item.hidden)
+    },
+
+    moreItems () {
+      return this.list.filter((item) => item.hidden)
+    }
+  }
+}
+</script>

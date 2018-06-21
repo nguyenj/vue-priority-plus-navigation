@@ -1,0 +1,37 @@
+{
+  "name": "vue-priority-plus-navigation",
+  "version": "1.0.0-rc.1",
+  "description": "Responsively show menu items as the horizonal space allows and hides the rest.",
+  "scripts": {
+    "build": "rm -f dist/ && rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nguyenj/vue-priority-plus-navigation.git"
+  },
+  "keywords": [
+    "priority",
+    "plus",
+    "navigation",
+    "menu",
+    "hambuger",
+    "vue",
+    "renderless"
+  ],
+  "author": {
+    "name": "John Nguyen",
+    "email": "hello@jnguyen.me",
+    "url": "jnguyen.me"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nguyenj/vue-priority-plus-navigation/issues"
+  },
+  "homepage": "https://github.com/nguyenj/vue-priority-plus-navigation#readme",
+  "devDependencies": {
+    "rollup": "^0.61.1",
+    "rollup-plugin-vue": "^4.2.0",
+    "vue-template-compiler": "^2.5.16"
+  }
+}
