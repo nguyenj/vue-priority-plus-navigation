@@ -3,6 +3,7 @@
   "version": "1.0.0-rc.1",
   "description": "Responsively show menu items as the horizonal space allows and hides the rest.",
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "rm -f dist/ && rollup -c",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +11,11 @@
     "type": "git",
     "url": "https://github.com/nguyenj/vue-priority-plus-navigation.git"
   },
+  "main": "dist/priority-plus-navigation.js",
+  "files": [
+    "src",
+    "dist"
+  ],
   "keywords": [
     "priority",
     "plus",
