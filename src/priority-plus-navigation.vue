@@ -37,6 +37,10 @@ export default {
     window.addEventListener('resize', this.handleResize.bind(this))
   },
 
+  beforeUpdate () {
+    this.handleResize()
+  },
+
   beforeDestroy () {
     window.removeEventListener('resize', this.handleResize.bind(this))
   },
@@ -55,7 +59,11 @@ export default {
     getContainerWidth () {
       let offset = 0
 
-      if (this.$refs.more) { offset += this.$refs.more.offsetWidth }
+      if (this.hasHiddenItems) {
+        const els = Array.prototype.slice.call(this.$el.children || [])
+        const el = els[els.length - 1]
+        els && el && ( offset += ( el.offsetWidth * 1.5 ) )
+      }
 
       return this.$el.offsetWidth - offset
     },
@@ -94,6 +102,10 @@ export default {
 
     moreItems () {
       return this.list.filter((item) => item.hidden)
+    },
+
+    hasHiddenItems () {
+      return !!this.moreItems.length
     }
   }
 }
