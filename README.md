@@ -49,10 +49,10 @@ export default {
 
 ## API
 
-`slot-scope` variables | Type | Description
-- | - | -
-`mainItems` | `Array` | The visible main menu items
-`moreItems` | `Array` | The menu items that don't fit in the main menu
+| `slot-scope` variables | Type | Description |
+| - | - | - |
+| `mainItems` | `Array` | The visible main menu items |
+| `moreItems` | `Array` | The menu items that don't fit in the main menu |
 
 
 ## License
