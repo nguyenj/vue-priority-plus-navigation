@@ -34,11 +34,7 @@ export default {
 
     this.storeItemWidths()
     this.handleResize()
-
-    // This is so we're able to remove the event listener on destroy. `bind`
-    // creates a new function object, so we just need a reference to it.
-    this._resizeHandler = this.handleResize.bind(this)
-    window.addEventListener('resize', this._resizeHandler)
+    window.addEventListener('resize', this.handleResize)
   },
 
   beforeUpdate () {
@@ -46,7 +42,7 @@ export default {
   },
 
   beforeDestroy () {
-    window.removeEventListener('resize', this._resizeHandler)
+    window.removeEventListener('resize', this.handleResize)
   },
 
   methods: {
