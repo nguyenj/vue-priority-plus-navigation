@@ -14,14 +14,24 @@ npm install --save vue-priority-plus-navigation
 <template>
   <PriorityPlus :list="menuItems">
     <div slot-scope='{ mainItems, moreItems }'>
-      <span v-for='(item, index) in mainItems' :key='index'>
-        <span @click='clickItem(item)'>{{ item.label }}</span>
-      </span>
+      <a v-for='(item, index) in mainItems'
+          :key='index'
+          :href='item.link'
+          :title='item.label'
+          @click.prevent='clickItem($event, item)'>
+        {{ item.label }}
+      </a>
       <div v-if='moreItems.length'>
         <button type='button'>More +</button>
-        <span v-for='(item, index) in moreItems' :key='index'>
-          <span @click='clickItem(item)'>{{ item.label }}</span>
-        </span>
+        <div class='dropdown'>
+          <a v-for='(item, index) in moreItems'
+              :key='index'
+              :href='item.link'
+              :title='item.label'
+              @click.prevent='clickItem($event, item)'>
+            {{ item.label }}
+          </a>
+        </div>
       </div>
     </div>
   </PriorityPlus>
@@ -35,13 +45,14 @@ export default {
   data () {
     return {
       menuItems: [
-        { label: 'Page 1' },
-        { label: 'Page 2' }
+        { label: 'Page 1', link: '/page-1' },
+        { label: 'Page 2', link: '/page-2' },
+        { label: 'Vue PriorityPlus Navigation Readme', link: 'https://github.com/nguyenj/vue-priority-plus-navigation/blob/master/README.md' }
       ]
     }
   },
   methods: {
-    clickItem (item) { console.log(item) }
+    clickItem (event, item) { console.log(item) }
   }
 }
 </script>
