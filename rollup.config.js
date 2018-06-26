@@ -1,3 +1,4 @@
+import babel from 'rollup-plugin-babel'
 import VuePlugin from 'rollup-plugin-vue'
 
 export default {
@@ -9,6 +10,9 @@ export default {
     format: 'es'
   },
   plugins: [
-    VuePlugin()
+    VuePlugin(),
+    babel({
+      exclude: 'node_modules/**'
+    })
   ]
 }

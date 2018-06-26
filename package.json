@@ -36,7 +36,10 @@
   },
   "homepage": "https://github.com/nguyenj/vue-priority-plus-navigation#readme",
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.51",
+    "@babel/preset-env": "^7.0.0-beta.51",
     "rollup": "^0.61.1",
+    "rollup-plugin-babel": "^4.0.0-beta.5",
     "rollup-plugin-vue": "^4.2.0",
     "vue-template-compiler": "^2.5.16"
   }
