@@ -62,7 +62,7 @@ export default {
       if (this.hasHiddenItems) {
         const els = Array.prototype.slice.call(this.$el.children || [])
         const el = els[els.length - 1]
-        els && el && ( offset += ( el.offsetWidth * 1.5 ) )
+        els && el && ( offset = offset + ( el.offsetWidth * 2 ) )
       }
 
       return this.$el.offsetWidth - offset
