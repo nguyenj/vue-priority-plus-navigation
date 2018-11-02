@@ -1,10 +1,10 @@
 <script>
 function getWidth(el) {
-  const styles = window.getComputedStyle(els[index])
+  const styles = window.getComputedStyle(el)
   const margin = parseFloat(styles['marginLeft']) +
     parseFloat(styles['marginRight'])
 
-  return Math.ceil(els[index].offsetWidth + margin)
+  return Math.ceil(el.offsetWidth + margin)
 }
 
 export default {
