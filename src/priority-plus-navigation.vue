@@ -1,4 +1,12 @@
 <script>
+function getWidth(el) {
+  const styles = window.getComputedStyle(els[index])
+  const margin = parseFloat(styles['marginLeft']) +
+    parseFloat(styles['marginRight'])
+
+  return Math.ceil(els[index].offsetWidth + margin)
+}
+
 export default {
   name: 'PriorityPlusMenu',
 
@@ -50,7 +58,7 @@ export default {
       let sum = 0
       const els = Array.prototype.slice.call(this.$el.children || [])
       this.list.forEach((item, index) => {
-        this.$set(item, 'width', els[index].offsetWidth)
+        this.$set(item, 'width', getWidth(els[index]))
         sum += item.width
         this.$set(this.accumItemWidths, index, sum)
       })
