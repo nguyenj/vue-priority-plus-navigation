@@ -1,18 +1,21 @@
 import babel from 'rollup-plugin-babel'
-import VuePlugin from 'rollup-plugin-vue'
+import vue from 'rollup-plugin-vue'
+import commonjs from 'rollup-plugin-commonjs'
 
 export default {
   input: 'src/priority-plus-navigation.vue',
   output: {
     name: 'PriorityPlusNavigation',
-    file: 'priority-plus-navigation.js',
     dir: 'dist',
+    sourcemap: true,
     format: 'es'
   },
   plugins: [
-    VuePlugin(),
+    commonjs(),
+    vue(),
     babel({
-      exclude: 'node_modules/**'
+      exclude: 'node_modules/**',
+      runtimeHelpers: true
     })
   ]
 }
