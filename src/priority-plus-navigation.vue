@@ -4,7 +4,7 @@ function getWidth(el) {
   const margin = parseFloat(styles['marginLeft']) +
     parseFloat(styles['marginRight'])
 
-  return Math.ceil(el.offsetWidth + margin)
+  return Math.ceil(el.getBoundingClientRect().width + margin)
 }
 
 export default {
@@ -61,6 +61,10 @@ export default {
     },
 
     getContainerWidth () {
+      return Math.ceil(this.$el.getBoundingClientRect().width)
+    },
+
+    getAdjustedContainerWidth () {
       let offset = 0
 
       if (this.hasHiddenItems) {
@@ -69,15 +73,14 @@ export default {
         els && el && ( offset = offset + ( el.offsetWidth * 2 ) )
       }
 
-      return this.$el.offsetWidth - offset
+      return this.getContainerWidth() - offset
     },
 
     getLastVisibleItemIndex () {
       let index = 0
-      const containerWidth = this.getContainerWidth()
-
+      const adjustedContainerWidth = this.getAdjustedContainerWidth()
       while (index < this.accumItemWidths.length) {
-        if (this.accumItemWidths[index] > containerWidth) {
+        if (this.accumItemWidths[index] > adjustedContainerWidth) {
           index--
           break
         }
