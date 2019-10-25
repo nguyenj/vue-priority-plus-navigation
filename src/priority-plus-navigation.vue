@@ -52,9 +52,8 @@ export default {
   methods: {
     storeItemWidths () {
       let sum = 0
-      const els = Array.prototype.slice.call(this.$el.children || [])
       this.list.forEach((item, index) => {
-        this.$set(item, 'width', getWidth(els[index]))
+        this.$set(item, 'width', getWidth(this.$el.children[index]))
         sum += item.width
         this.$set(this.accumItemWidths, index, sum)
       })
