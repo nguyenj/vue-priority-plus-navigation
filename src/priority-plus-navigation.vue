@@ -20,14 +20,16 @@ export default {
 
   data () {
     return {
-      accumItemWidths: []
+      accumItemWidths: [],
+      isOverflowing: false
     }
   },
 
   render () {
     return this.$scopedSlots.default({
       mainItems: this.mainItems,
-      moreItems: this.moreItems
+      moreItems: this.moreItems,
+      isOverflowing: this.isOverflowing
     })
   },
 
@@ -66,7 +68,7 @@ export default {
     getAdjustedContainerWidth () {
       let offset = 0
 
-      if (this.hasHiddenItems) {
+      if (this.isOverflowing) {
         offset = getWidth(this.$el.children[this.$el.children.length - 1])
       }
 
@@ -88,6 +90,8 @@ export default {
     },
 
     async handleResize () {
+      this.isOverflowing = this.accumItemWidths[this.accumItemWidths.length - 1] > this.getContainerWidth()
+
       await this.$nextTick()
 
       const lastVisibleItemIndex = this.getLastVisibleItemIndex()
@@ -106,10 +110,6 @@ export default {
 
     moreItems () {
       return this.list.filter((item) => item.hidden)
-    },
-
-    hasHiddenItems () {
-      return !!this.moreItems.length
     }
   }
 }
