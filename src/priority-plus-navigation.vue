@@ -97,8 +97,7 @@ export default {
       const lastVisibleItemIndex = this.getLastVisibleItemIndex()
 
       this.list.forEach((item, index) => {
-        const hidden = index > lastVisibleItemIndex
-        this.$set(item, 'hidden', hidden)
+        item.hidden = index > lastVisibleItemIndex
       })
     }
   },
