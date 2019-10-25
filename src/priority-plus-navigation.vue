@@ -45,10 +45,6 @@ export default {
     window.addEventListener('resize', this.handleResize)
   },
 
-  beforeUpdate () {
-    this.handleResize()
-  },
-
   beforeDestroy () {
     window.removeEventListener('resize', this.handleResize)
   },
