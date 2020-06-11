@@ -15,6 +15,10 @@ export default {
       type: Array,
       required: true,
       default () { return [] }
+    },
+    offsetFactor: {
+      type: Number,
+      default: 2.0
     }
   },
 
@@ -70,7 +74,7 @@ export default {
       if (this.hasHiddenItems) {
         const els = Array.prototype.slice.call(this.$el.children || [])
         const el = els[els.length - 1]
-        els && el && ( offset = offset + ( el.offsetWidth * 2 ) )
+        els && el && ( offset = getWidth(el) * this.offsetFactor )
       }
 
       return this.$el.offsetWidth - offset
