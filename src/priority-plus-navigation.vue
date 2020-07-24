@@ -4,7 +4,7 @@ function getWidth(el) {
   const margin = parseFloat(styles['marginLeft']) +
     parseFloat(styles['marginRight'])
 
-  return Math.ceil(el.offsetWidth + margin)
+  return Math.ceil(el.getBoundingClientRect().width + margin)
 }
 
 export default {
@@ -20,14 +20,16 @@ export default {
 
   data () {
     return {
-      accumItemWidths: []
+      accumItemWidths: [],
+      isOverflowing: false
     }
   },
 
   render () {
     return this.$scopedSlots.default({
       mainItems: this.mainItems,
-      moreItems: this.moreItems
+      moreItems: this.moreItems,
+      isOverflowing: this.isOverflowing
     })
   },
 
@@ -45,10 +47,6 @@ export default {
     window.addEventListener('resize', this.handleResize)
   },
 
-  beforeUpdate () {
-    this.handleResize()
-  },
-
   beforeDestroy () {
     window.removeEventListener('resize', this.handleResize)
   },
@@ -56,32 +54,32 @@ export default {
   methods: {
     storeItemWidths () {
       let sum = 0
-      const els = Array.prototype.slice.call(this.$el.children || [])
       this.list.forEach((item, index) => {
-        this.$set(item, 'width', getWidth(els[index]))
+        this.$set(item, 'width', getWidth(this.$el.children[index]))
         sum += item.width
         this.$set(this.accumItemWidths, index, sum)
       })
     },
 
     getContainerWidth () {
+      return Math.ceil(this.$el.getBoundingClientRect().width)
+    },
+
+    getAdjustedContainerWidth () {
       let offset = 0
 
-      if (this.hasHiddenItems) {
-        const els = Array.prototype.slice.call(this.$el.children || [])
-        const el = els[els.length - 1]
-        els && el && ( offset = offset + ( el.offsetWidth * 2 ) )
+      if (this.isOverflowing) {
+        offset = getWidth(this.$el.children[this.$el.children.length - 1])
       }
 
-      return this.$el.offsetWidth - offset
+      return this.getContainerWidth() - offset
     },
 
     getLastVisibleItemIndex () {
       let index = 0
-      const containerWidth = this.getContainerWidth()
-
+      const adjustedContainerWidth = this.getAdjustedContainerWidth()
       while (index < this.accumItemWidths.length) {
-        if (this.accumItemWidths[index] > containerWidth) {
+        if (this.accumItemWidths[index] > adjustedContainerWidth) {
           index--
           break
         }
@@ -92,13 +90,14 @@ export default {
     },
 
     async handleResize () {
+      this.isOverflowing = this.accumItemWidths[this.accumItemWidths.length - 1] > this.getContainerWidth()
+
       await this.$nextTick()
 
       const lastVisibleItemIndex = this.getLastVisibleItemIndex()
 
       this.list.forEach((item, index) => {
-        const hidden = index > lastVisibleItemIndex
-        this.$set(item, 'hidden', hidden)
+        item.hidden = index > lastVisibleItemIndex
       })
     }
   },
@@ -110,10 +109,6 @@ export default {
 
     moreItems () {
       return this.list.filter((item) => item.hidden)
-    },
-
-    hasHiddenItems () {
-      return !!this.moreItems.length
     }
   }
 }
